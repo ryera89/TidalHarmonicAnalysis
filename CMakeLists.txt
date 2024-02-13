@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(THAAP LANGUAGES CXX)
+project(TidalHarmonicAnalysis LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -23,14 +23,14 @@ file(GLOB _SOURCES
     "src/*/*.cpp"
 )
 
-add_library(THAAP SHARED
+add_library(${PROJECT_NAME} SHARED
   ${_HEADERS_PUBLIC}
   ${_SOURCES}
 )
 
-target_link_libraries(THAAP PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
-target_compile_definitions(THAAP PRIVATE THAAP_LIBRARY)
+target_compile_definitions(${PROJECT_NAME} PRIVATE THAAP_LIBRARY)
 
 target_include_directories(${PROJECT_NAME}
      PUBLIC
