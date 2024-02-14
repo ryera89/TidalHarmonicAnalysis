@@ -30,13 +30,13 @@ add_library(${PROJECT_NAME} SHARED
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE THAAP_LIBRARY)
+target_compile_definitions(${PROJECT_NAME} PRIVATE TidalHarmonicAnalysis)
 
 target_include_directories(${PROJECT_NAME}
      PUBLIC
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 #         #$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include> # FIXME this is for *_export.h
-#         #$<INSTALL_INTERFACE:include>
+         $<INSTALL_INTERFACE:include>
 #     PRIVATE
 #         ${CMAKE_CURRENT_SOURCE_DIR}/src
  )
