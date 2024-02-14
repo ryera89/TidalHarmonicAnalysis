@@ -1,12 +1,9 @@
-#ifndef THAAP_GLOBAL_H
-#define THAAP_GLOBAL_H
+#pragma once
 
 #include <QtCore/qglobal.h>
 
-#if defined(THAAP_LIBRARY)
-#define THAAP_EXPORT Q_DECL_EXPORT
+#if defined(TidalHarmonicAnalysis)
+#define TidalHarmonicAnalysis_EXPORT Q_DECL_EXPORT
 #else
-#define THAAP_EXPORT Q_DECL_IMPORT
+#define TidalHarmonicAnalysis_EXPORT Q_DECL_IMPORT
 #endif
-
-#endif // THAAP_GLOBAL_H
