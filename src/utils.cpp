@@ -1,11 +1,23 @@
 #include "utils.h"
 
+#include <numbers>
+
 using namespace std::literals;
 
 namespace {
 // Julians days for January 1st 2000 12:00 hours.
 static constexpr double julianDaysForEpoch = 2451545.0;
 static constexpr double julianCentury      = 36525.0;
+
+double radiansToDegrees(double radians) noexcept {
+    constexpr double toDegrees = 180 / std::numbers::pi;
+    return radians * toDegrees;
+}
+
+double degreesToRadians(double degrees) noexcept {
+    constexpr double toRadians = std::numbers::pi / 180;
+    return degrees * toRadians;
+}
 
 double calculateJulianCenturiesSinceEpoch(
     const std::chrono::year_month_day& date, std::chrono::hours hour, std::chrono::minutes minutes
