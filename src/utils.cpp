@@ -9,16 +9,6 @@ namespace {
 static constexpr double julianDaysForEpoch = 2451545.0;
 static constexpr double julianCentury      = 36525.0;
 
-double radiansToDegrees(double radians) noexcept {
-    constexpr double toDegrees = 180 / std::numbers::pi;
-    return radians * toDegrees;
-}
-
-double degreesToRadians(double degrees) noexcept {
-    constexpr double toRadians = std::numbers::pi / 180;
-    return degrees * toRadians;
-}
-
 double calculateJulianCenturiesSinceEpoch(
     const std::chrono::year_month_day& date, std::chrono::hours hour, std::chrono::minutes minutes
 ) {
@@ -33,6 +23,16 @@ double calculatePolynomial(double x, double c0, double c1, double c2, double c3 
 } // namespace
 
 namespace Utils {
+constexpr double radiansToDegrees(double radians) noexcept {
+    constexpr double toDegrees = 180 / std::numbers::pi;
+    return radians * toDegrees;
+}
+
+constexpr double degreesToRadians(double degrees) noexcept {
+    constexpr double toRadians = std::numbers::pi / 180;
+    return degrees * toRadians;
+}
+
 double calculateJulianEphemerisDay(
     const std::chrono::year_month_day& date, std::chrono::hours hour, std::chrono::minutes minutes
 ) {
