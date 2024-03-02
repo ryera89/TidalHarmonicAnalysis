@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TidalHarmonicAnalysis_global.h"
+#include "tidalharmonicanalysisglobal.h"
 
 #include <chrono>
 
