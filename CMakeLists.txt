@@ -11,6 +11,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
+# Dependencies
+find_package(Eigen3 3.4 REQUIRED NO_MODULE)
+
 file(GLOB _HEADERS_PUBLIC
     "include/*.h"
     "include/*/*.h"
@@ -28,7 +31,13 @@ add_library(${PROJECT_NAME} SHARED
   ${_SOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE
+  Qt${QT_VERSION_MAJOR}::Core
+
+  PUBLIC
+  Eigen3::Eigen
+)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE TidalHarmonicAnalysis)
 
