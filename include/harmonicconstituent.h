@@ -2,8 +2,8 @@
 
 #include "tidalharmonicanalysisglobal.h"
 
+#include <array>
 #include <functional>
-#include <memory>
 
 namespace HarmonicAnalysis {
 
@@ -54,16 +54,17 @@ class TidalHarmonicAnalysis_EXPORT HarmonicConstituent {
     }
     );
 
-    ~HarmonicConstituent();
-
     double frequency() const;
     const std::array<int, 7>& extendedDoodsonNumbers() const;
     NodalCorrections nodalCorrections(double perigeeLongitude, double ascendingNodeLongitude) const;
     HarmonicConstants harmonicConstants();
+    std::function<NodalCorrections(double, double)> nodalCorrectionFunc() const;
 
   private:
-    struct HarmonicConstituentImpl;
-    std::unique_ptr<HarmonicConstituentImpl> m_impl;
+    double m_frequency;
+    HarmonicConstants m_harmonicConstants;
+    std::array<int, 7> m_extendedDoodsonNumbers;
+    std::function<NodalCorrections(double, double)> m_nodalCorrections;
 };
 
 } // namespace HarmonicAnalysis
