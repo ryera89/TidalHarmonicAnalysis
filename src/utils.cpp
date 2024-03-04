@@ -2,6 +2,8 @@
 
 #include <numbers>
 
+#include <Eigen/Dense>
+
 using namespace std::literals;
 
 namespace {
@@ -12,7 +14,7 @@ static constexpr double julianCentury      = 36525.0;
 double calculateJulianCenturiesSinceEpoch(
     const std::chrono::year_month_day& date, std::chrono::hours hour, std::chrono::minutes minutes
 ) {
-    const double julianDays = Utils::calculateJulianEphemerisDay(date, hour, minutes);
+    const double julianDays = HarmonicAnalysis::Utils::calculateJulianEphemerisDay(date, hour, minutes);
 
     return (julianDays - julianDaysForEpoch) / julianCentury;
 }
@@ -21,7 +23,7 @@ double calculatePolynomial(double x, double c0, double c1, double c2, double c3 
     return c0 + x * (c1 + x * (c2 + c3 * x));
 }
 } // namespace
-
+namespace HarmonicAnalysis {
 namespace Utils {
 constexpr double radiansToDegrees(double radians) noexcept {
     constexpr double toDegrees = 180 / std::numbers::pi;
@@ -94,7 +96,7 @@ double calculateSunMeanLongitude(
     return longitude >= 0 ? fmod(longitude, 360.0) : fmod(longitude, 360.0) + 360;
 }
 
-double calculateMoonAscendingNodeLongitude(
+double calculateLunarAscendingNodeLongitude(
     const std::chrono::year_month_day& date, std::chrono::hours hours, std::chrono::minutes minutes
 ) {
     const double julianCenturiesSinceEpoch = calculateJulianCenturiesSinceEpoch(date, hours, minutes);
@@ -108,9 +110,8 @@ double calculateMoonAscendingNodeLongitude(
     return longitude >= 0 ? fmod(longitude, 360.0) : fmod(longitude, 360.0) + 360;
 }
 
-double calculateMoonMeanPerigee(
-    const std::chrono::year_month_day& date, std::chrono::hours hours, std::chrono::minutes minutes
-) {
+double
+calculateLunarPerigee(const std::chrono::year_month_day& date, std::chrono::hours hours, std::chrono::minutes minutes) {
     const double julianCenturiesSinceEpoch = calculateJulianCenturiesSinceEpoch(date, hours, minutes);
 
     constexpr double c0 = 83.3532465;
@@ -136,5 +137,5 @@ double calculatePerihelionLongitude(
     return longitude >= 0 ? fmod(longitude, 360.0) : fmod(longitude, 360.0) + 360;
 }
 } // namespace AstronomicalLongitudes
-
 } // namespace Utils
+} // namespace HarmonicAnalysis
