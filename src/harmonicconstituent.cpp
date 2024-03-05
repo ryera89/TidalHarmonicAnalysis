@@ -53,7 +53,7 @@ HarmonicConstituent::nodalCorrections(double perigeeLongitude, double ascendingN
     return m_nodalCorrections(perigeeLongitude, ascendingNodeLongitude);
 }
 
-HarmonicConstituent::HarmonicConstants HarmonicConstituent::harmonicConstants() { return m_harmonicConstants; }
+HarmonicConstituent::HarmonicConstants HarmonicConstituent::harmonicConstants() const { return m_harmonicConstants; }
 
 std::function<HarmonicConstituent::NodalCorrections(double, double)> HarmonicConstituent::nodalCorrectionFunc() const {
     return m_nodalCorrections;

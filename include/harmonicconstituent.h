@@ -57,7 +57,7 @@ class TidalHarmonicAnalysis_EXPORT HarmonicConstituent {
     double frequency() const;
     const std::array<int, 7>& extendedDoodsonNumbers() const;
     NodalCorrections nodalCorrections(double perigeeLongitude, double ascendingNodeLongitude) const;
-    HarmonicConstants harmonicConstants();
+    HarmonicConstants harmonicConstants() const;
     std::function<NodalCorrections(double, double)> nodalCorrectionFunc() const;
 
   private:
