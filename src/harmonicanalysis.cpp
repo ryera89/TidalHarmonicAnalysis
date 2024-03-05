@@ -1,5 +1,7 @@
 #include "harmonicanalysis.h"
 
+#include <numeric>
+
 #include <Eigen/Cholesky>
 
 using namespace std::literals;
@@ -140,6 +142,36 @@ std::pair<double, std::vector<HarmonicConstituent>> computeHarmonicConstituentsC
     }
 
     return {meanSeaLevel, harmonicConstituents};
+}
+
+std::vector<double> predictSeaLevels(
+    double meanSeaLevel,
+    const std::vector<HarmonicConstituent>& constituents,
+    const std::vector<Utils::DateTime>& dateTimesGMT
+) {
+    assert(dateTimesGMT.size() > 0);
+
+    // Reference time point is the first date in the series at 00:00
+    const std::chrono::year_month_day refDate = dateTimesGMT.front().date;
+
+    const std::vector<float> elapsedHours          = elapsedTimeInHours(dateTimesGMT, refDate);
+    auto [equilibriumPhaseAngles, nodalCorrection] = computeConstituentsEquilibriumPhaseAngles(constituents, refDate);
+
+    for (int i = 0; i < nodalCorrection.size(); ++i) {
+        equilibriumPhaseAngles[i] -= nodalCorrection[i].angle;
+    }
+
+    std::vector<double> seaLevels(dateTimesGMT.size(), meanSeaLevel);
+    for (int i = 0; i < elapsedHours.size(); ++i) {
+        for (int j = 0; j < constituents.size(); ++j) {
+            HarmonicConstituent::HarmonicConstants hConstants = constituents[j].harmonicConstants();
+            double phase = constituents[j].frequency() * elapsedHours[i] - hConstants.phase + equilibriumPhaseAngles[j];
+            phase        = Utils::degreesToRadians(phase);
+            seaLevels[i] += hConstants.amplitude * nodalCorrection[j].amplitude * std::cos(phase);
+        }
+    }
+
+    return seaLevels;
 }
 
 } // namespace HarmonicAnalysis
